@@ -151,7 +151,7 @@ function smm_mega_menu_output( $item_output, $item ) {
 	if ( intval( $item->enable_mega_menu ) && $item->mega_menu_post ) {
 		$mega_menu = get_post( $item->mega_menu_post );
 
-		$item_output .= '<ul class="dropdown-menu megamenu"><li><div class="megamenu-wrap">';
+		$item_output .= '<ul class="mega-menu"><li><div class="mega-menu-wrap">';
 		$item_output .= get_post_field( 'post_content', $mega_menu );
 		$item_output .= '</div></li></ul>';
 	}
@@ -159,3 +159,18 @@ function smm_mega_menu_output( $item_output, $item ) {
 	return $item_output;
 }
 add_filter( 'walker_nav_menu_start_el', 'smm_mega_menu_output', 99, 2 );
+
+/**
+ * Add custom class to menu item.
+ *
+ * @param  array  $classes Menu item classes.
+ * @param  object $item    Menu item object.
+ * @return array
+ */
+function smm_nav_menu_css_class( $classes, $item ) {
+	if ( isset( $item->enable_mega_menu ) && intval( $item->enable_mega_menu ) ) {
+		$classes[] = 'mega-menu-enabled';
+	}
+	return $classes;
+}
+add_filter( 'nav_menu_css_class', 'smm_nav_menu_css_class', 10, 2 );
